@@ -1,0 +1,34 @@
+public class Solution {
+    public int maxSubArray(int[] nums) {
+		
+		return max_sub(nums, 0, nums.length-1);
+        
+    }
+	
+	public int max_sub(int[] a, int left, int right){
+		int l_max, r_max, m_max;
+		if (left == right){
+			return a[left];
+		}
+		int center = (left+right)/2;
+		l_max = max_sub(a, left, center);
+		r_max = max_sub(a, center+1, right);
+		
+		int l_border_max = 0;
+		int lh_max  = 1<<31 ;
+		for(int i = center; i >= left; i--){
+				l_border_max += a[i];
+				if(l_border_max >lh_max)
+					lh_max = l_border_max;
+		}
+		int r_border_max = 0;
+		int rh_max  = 1<<31 ;
+		for(int i = center + 1; i <= right; i++){
+				r_border_max += a[i];
+				if(r_border_max > rh_max)
+					rh_max = r_border_max;
+		}
+		m_max =  lh_max  +rh_max;
+		return Math.max(m_max ,Math.max(l_max, r_max));
+	}
+}

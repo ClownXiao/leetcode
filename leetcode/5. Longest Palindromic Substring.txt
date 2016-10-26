@@ -1,0 +1,47 @@
+public class Solution {
+     public String longestPalindrome(String s) {
+
+        List<Integer> a = new ArrayList<Integer>();
+        String ss = tranfer(s,a);
+        int mx = 0, cur_max = 0, po = 0;
+        for(int i = 0; i < ss.length(); i++){
+            if(i < mx){
+                int minlen = a.get(2*po - i) < (mx - i)? a.get(2*po - i) : (mx - i);
+                a.set(i, minlen);
+            }
+            else
+                a.set(i,1);
+            int temp = a.get(i);
+            while(i-temp > -1 && i+temp < a.size()&&ss.charAt(i+temp) == ss.charAt(i-temp)){
+                temp++;
+                a.set(i,temp);
+            }
+            if( cur_max <= temp){
+                cur_max = temp;
+                po = i;
+                mx = i + a.get(i)-1;
+            }
+        }
+        int start = po/2 - (a.get(po)-1)/2;
+        int end = po%2 == 0? (a.get(po)-1)/2:(a.get(po)+1)/2;
+        end += po/2;
+        // 0123456789
+        // #1#2#3#2#1#
+        // #1#2#2#1#
+        // 12321
+        return s.substring(start,end );
+
+    }
+
+    public String tranfer(String s,List<Integer> a){
+        String rst = "";
+        for(int i = 0; i < s.length();i++){
+            rst = rst + "#" + s.charAt(i);
+            a.add(0);
+            a.add(0);
+        }
+        a.add(0);
+        return (rst+"#");
+
+    }
+}
