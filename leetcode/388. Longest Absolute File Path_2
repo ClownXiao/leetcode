@@ -1,0 +1,15 @@
+public class Solution {
+    public int lengthLongestPath(String input) {
+        String[] sa = input.split("\n");
+        int[] len = new int[sa.length+1];
+        int max = 0;
+        len[0] = -1;
+        for(String s: sa){
+            int i = s.lastIndexOf("\t") + 1;
+            int l = len[i+1] = len[i] + s.length() - i + 1;
+            if(s.contains(".")) max = Math.max(max,l);
+        }
+        
+        return max;
+    }
+}

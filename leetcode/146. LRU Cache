@@ -1,0 +1,40 @@
+public class LRUCache {
+    
+    public HashMap<Integer, Integer> cache;
+    public Queue<Integer> q;
+    public int capacity;
+    public int use;
+    
+    
+    public LRUCache(int capacity) {
+        cache = new HashMap<Integer, Integer>();
+        q = new LinkedList<Integer>();
+        this.capacity = capacity;
+        use = 0;
+    }
+    
+    public int get(int key) {
+        int rst = -1;
+        if(cache.containsKey(key)){
+            q.remove(key);
+            q.offer(key);
+            rst = cache.get(key);
+        }
+        
+        return rst;  
+    }
+    
+    public void set(int key, int value) {
+        if(cache.containsKey(key)){
+            q.remove(key);
+            use--;
+        }
+        else if(use >= capacity){
+             int victim = q.poll();
+             cache.remove(victim);
+        }
+        cache.put(key, value);
+        q.offer(key);
+        use++;
+    }
+}

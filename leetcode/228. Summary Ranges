@@ -1,0 +1,24 @@
+public class Solution {
+    public List<String> summaryRanges(int[] nums) {
+        int len = nums.length;
+        List<String> rst = new ArrayList<String>();
+        if(len  <= 0){
+            return rst;
+        } 
+        int pre_start = nums[0], pre_end = nums[0]; 
+        for(int i = 1; i <= len ; i ++){
+            if(i == len  || nums[i] != pre_end + 1){
+                 if(pre_start == pre_end)
+                    rst.add("" + pre_start + "");
+                else
+                    rst.add(pre_start+ "->" + pre_end);
+                if(i != len ) pre_start = pre_end = nums[i];
+            }
+            else{
+                pre_end++;
+            }
+        }
+        
+        return rst;
+    }
+}
