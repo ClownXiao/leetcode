@@ -1,0 +1,76 @@
+public class Solution {
+    public int threeSumClosest(int[] nums, int target) {
+        Arrays.sort(nums);
+        int l,h,sum;
+        int min = Integer.MAX_VALUE;
+        int rst = 0,s;
+        int last;
+        for(int i = 0; i < nums.length-1; i++){
+            if(i == 0 || nums[i] != nums[i-1]){
+                l = i + 1;
+                h = nums.length - 1;
+                sum = target - nums[i];
+                last = nums[l] + nums[h] - sum;
+                while(l < h){
+                    
+                    if(l > i+1 && h > l+1&&nums[l] == nums[l-1]) {
+                        l++;
+                        continue;
+                    }
+                    else if(h < nums.length -1 && h > l+1 &&nums[h] == nums[h+1]){
+                        h--;
+                        continue;
+                    }
+                    s = nums[l] + nums[h];
+                    //System.out.println(s);
+                    if( s == sum) return target;
+                    if( s < sum && last < 0){
+                        if(l == h - 1){
+                           if(sum - s < min){
+                             min = sum - s;
+                             rst = s - sum + target;
+                             l = h;
+                             break;
+                            }
+                        }
+                        l++;
+                    }
+                    else if( s > sum && last > 0){
+                        if(h == l + 1){
+                            //System.out.println("dayu");
+                             if(s - sum < min){
+                            min = s - sum;
+                             rst = s - sum + target;
+                             l = h;
+                             break;
+                            }
+                        }
+                        h--;
+                    }
+                    else if( (s < sum && last > 0) || (s > sum && last < 0)){
+                        if(Math.abs(last) < Math.abs(sum - s)){
+                             if(Math.abs(last) < min){
+                                min = Math.abs(last);
+                             rst =  target + last;
+                             }
+                        }
+                        else{
+                            if(Math.abs(sum - s) < min){
+                                min = Math.abs(sum - s);
+                             rst =  s - sum + target;
+                             }
+                        }
+                        if(s < sum) l++;
+                        else h--;
+                    }
+                    last = s - sum;
+                    
+                    
+                }
+                
+            }
+            //System.out.println(rst);
+        }
+        return rst;
+    }
+}

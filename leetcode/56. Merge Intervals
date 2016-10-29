@@ -1,0 +1,73 @@
+/**
+ * Definition for an interval.
+ * public class Interval {
+ *     int start;
+ *     int end;
+ *     Interval() { start = 0; end = 0; }
+ *     Interval(int s, int e) { start = s; end = e; }
+ * }
+ */
+public class Solution {
+    public List<Interval> merge(List<Interval> intervals) {
+         List<Interval> rst = new ArrayList<Interval>();
+        if(intervals.size() == 0) return rst;
+        sort(intervals, 0, intervals.size()-1);
+        int current_start = intervals.get(0).start;
+        int current_end = intervals.get(0).end;
+        for(int i = 1; i < intervals.size(); i++){
+            if(current_end < intervals.get(i).start ){
+                Interval itv = new Interval(current_start,current_end);
+                rst.add(itv);
+                current_start = intervals.get(i).start;
+                current_end = intervals.get(i).end;
+                continue;
+            }
+            if(current_end >= intervals.get(i).start )
+                if(current_end <= intervals.get(i).end)
+                    current_end = intervals.get(i).end;
+
+        }
+        Interval itv = new Interval(current_start,current_end);
+        rst.add(itv);
+        return rst;
+    }
+    
+     public void sort(List<Interval> intervals, int low, int high) {
+
+       int l = low;
+        int h = high;
+        int k = intervals.get(low).start;
+        int temp;
+        while(l<h){
+
+            while(l < h &&intervals.get(h).start >= k){
+                h--;
+        }
+            if(l<h) {
+                temp = intervals.get(h).start;
+                intervals.get(h).start = intervals.get(l).start;
+                intervals.get(l).start = temp;
+                temp = intervals.get(h).end;
+                intervals.get(h).end = intervals.get(l).end;
+                intervals.get(l).end = temp;
+                l++;
+            }
+
+            while(l < h && intervals.get(l).start <= k)
+                l++;
+            if(l<h){
+                temp = intervals.get(h).start;
+                intervals.get(h).start = intervals.get(l).start;
+                intervals.get(l).start = temp;
+                temp = intervals.get(h).end;
+                intervals.get(h).end = intervals.get(l).end;
+                intervals.get(l).end = temp;
+                h--;
+            }
+        }
+        if(l>low) sort(intervals, low, l-1);
+        if(h < high) sort(intervals, l+1, high);
+
+
+    }
+}

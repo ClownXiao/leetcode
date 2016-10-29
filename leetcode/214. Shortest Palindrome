@@ -1,0 +1,38 @@
+public class Solution {
+   public String shortestPalindrome(String s) {
+        if(s.length() < 2) return s;
+        int po = (s.length()-1)/2;
+        int len = 0;
+        String rst;
+        l:while(po >= 0){
+            len = 1;
+            if(s.charAt(po) == s.charAt(po + 1)){
+                rst = tranfer(s,po,po+1);
+                if(rst != null)
+                    return rst;
+            }
+            if((rst = tranfer(s,po,po)) != null)
+                return rst;
+            po--;
+        }
+        return null;
+
+    }
+
+
+
+
+
+    public String tranfer(String s,int l, int r) {
+        int len = 1;
+        while (l - len >= 0 && r + len < s.length()) {
+            if (s.charAt(l - len) != s.charAt(r + len))
+                break;
+            else
+                len++;
+        }
+        if (l - len != -1) return null;
+        StringBuilder sb = new StringBuilder(s.substring(r + len));
+        return sb.reverse().toString() + s;
+    }
+}

@@ -1,0 +1,73 @@
+public class Solution {
+    public String longestPalindrome(String s) {
+          HashMap<Integer, Integer> map = new HashMap<Integer, Integer> ();
+        boolean flag = false;
+        //char[] c = new char[1000];
+        //char  v = '';
+        int mid =0, len = 0;
+        int max = 0;
+        if (s.length() == 1) return s;
+        for (int i = 1; i < s.length(); i++) {
+            if (flag) {
+
+                if(i - len - 1 < 0){
+                    if(s.charAt(i) == s.charAt(mid) && s.charAt(i) == s.charAt(i-1) ){
+
+                        mid += len%2;
+                        len++;
+                    }
+                    else {
+                        flag = false;
+                        map.put(len, mid);
+                        len = 0;
+                        i = mid + len%2 == 0? mid+1:mid+2;
+                        if(i>=s.length())
+                            break;
+                    }
+                }
+                else if (s.charAt(i - len - 1) == s.charAt(i)) {
+                    len += 2;
+                }
+                else if(s.charAt(i) == s.charAt(mid)&&s.charAt(i) == s.charAt(i-1)){
+
+                    mid += len%2;
+                    len++;
+                }
+                else {
+                    flag = false;
+                    map.put( len, mid);
+                    len = 0;
+                    i = mid + len%2 == 0? mid+1:mid+2;
+                    if(i>=s.length())
+                        break;
+                }
+            }
+            if(!flag){
+                if (s.charAt(i - 1) == s.charAt(i)) {
+                    flag = true;
+                    len = 2;
+                    mid = i;
+                }
+                else if(i-2 >= 0){
+                    if(s.charAt(i-2) == s.charAt(i)){
+                        flag = true;
+                        len = 3;
+                        mid = i-1;
+                    }
+                }
+            }
+        }
+        map.put(len,mid);
+        for (Integer key : map.keySet()) {
+            if(key > max) {
+                max = key;
+                mid = map.get(key);
+            }
+        }
+        if(max%2 == 1)
+         return s.substring(mid-max/2,mid+max/2+1);
+        else
+            return s.substring(mid-max/2,mid+max/2);
+
+    }
+}
