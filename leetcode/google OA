@@ -1,0 +1,42 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    
+    public int max = 0;
+    
+    public List<String> binaryTreePaths(TreeNode root) {
+        int res = 0;
+        helper(root);
+        List<String> s = new ArrayList();
+        System.out.println(max);
+        return s;
+        
+        
+    }
+    
+    public int helper(TreeNode t){
+        
+        int a = 10;
+        int b = 30;
+        int res = 0;
+        if(t == null)
+            return 0;
+        else if(t.val < a || t.val > b)
+            res = -1;
+       int x = helper(t.left);
+        int y = helper(t.right);
+            if(x == -1 || y == -1 || res == -1)
+                res = -1;
+            else
+                res = 1 + x + y;
+        max = Math.max(res,max);
+        return res;
+    }
+}

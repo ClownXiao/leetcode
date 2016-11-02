@@ -1,0 +1,18 @@
+public class Solution {
+    public int maxSubArray(int[] nums) {
+        int thismax = 0;
+        int maxarray = 0;
+        int maxnumber = 1<<31;
+        for(int i = 0; i < nums.length; i++){
+            thismax += nums[i];
+            if(thismax > maxarray){
+                maxarray = thismax;
+            }
+            else if(thismax < 0){
+                thismax = 0;
+            }
+            if(maxnumber < nums[i]) maxnumber = nums[i];
+        }
+        return maxarray>0? maxarray:maxnumber;
+    }
+}

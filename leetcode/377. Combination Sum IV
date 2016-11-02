@@ -1,0 +1,29 @@
+public class Solution {
+    public int combinationSum4(int[] nums, int target) {
+        int res = 0;
+        HashMap<Integer, Integer> tar = new HashMap<Integer, Integer>();
+        res += find(tar, nums, target);
+        return res;
+    }
+    
+    public int find(HashMap<Integer, Integer> tar, int[] nums, int target){
+        int res = 0;
+        for(int i = 0; i < nums.length; i++){
+            if(nums[i] == target) res++;
+            else{
+                int newtar =  target - nums[i];
+                if(newtar > 0){
+                    if(tar.containsKey(newtar)){
+                        res += tar.get(newtar);
+                    }
+                    else{
+                    int x = find(tar, nums, target - nums[i]);
+                    tar.put(newtar, x);
+                    res += x;
+                    }
+                }
+            }
+        }
+        return res;
+    }
+}

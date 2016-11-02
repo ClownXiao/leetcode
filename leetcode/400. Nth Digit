@@ -1,0 +1,26 @@
+public class Solution {
+    public int findNthDigit(int n) {
+        long i = 9, e = 1, j = n;
+        while(j > i * e){
+            j -= i * e;
+            i *= 10;
+            e++;
+        }
+        long base =  i/9;
+        long frac = j%e;
+        long target = base + j/e - 1;
+        if(frac == 0){
+        return (int)target%10;
+        }
+            
+        else{
+            target++;
+            while(frac < e){
+                target /= 10;
+                frac++;
+            }
+            return (int)target%10;
+        }
+        
+    }
+}

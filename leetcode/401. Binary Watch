@@ -1,0 +1,17 @@
+public class Solution {
+    public List<String> readBinaryWatch(int num) {
+        List<String> res = new ArrayList<String>();
+        for( int i = 0; i < 12; i++){
+            int c1 = Integer.bitCount(i);
+            if( c1 > num) continue;
+            for(int j = 0; j < 60; j++){
+                if(c1 + Integer.bitCount(j) != num){
+                    continue;
+                }
+                else
+                    res.add(i+":" + ( j > 9? j:("0"+j)));
+            }
+        }
+        return res;
+    }
+}
