@@ -1,0 +1,40 @@
+public class Solution {
+    public List<String> findItinerary(String[][] tickets) {
+        HashMap<String, PriorityQueue<String>> map = new HashMap<String, PriorityQueue<String>>();
+        for(int i = 0; i < tickets.length; i++){
+            String from = tickets[i][0];
+            String to = tickets[i][1];
+            if(!map.containsKey(from)){
+                PriorityQueue<String> q = new PriorityQueue<String>();
+                q.offer(to);
+                map.put(from, q);
+            }
+            else{
+                map.get(from).offer(to);
+            }
+        }
+        String s = "JFK";
+        List<String> res = new ArrayList<String>();
+        res.add(s);
+        while(map.containsKey(s)){
+            if(map.get(s).size() == 0)
+                break;  
+            PriorityQueue<String> x = map.get(s);
+            String pre = s;
+            s = x.poll();
+            if(!map.containsKey(s) && x.size() > 0){
+                PriorityQueue<String> q = new PriorityQueue<String>(); 
+                while(!map.containsKey(s) && x.size() > 0){
+                     
+                    q.offer(s);
+                    s = x.poll();
+                }
+                if(!map.containsKey(s)) 
+                    break;
+                map.put(pre, q);
+            }
+            res.add(s);
+        }
+        return res;
+    }
+}

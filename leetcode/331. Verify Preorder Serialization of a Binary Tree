@@ -1,0 +1,18 @@
+public class Solution {
+    public boolean isValidSerialization(String preorder) {
+        String[] sl = preorder.split(",");
+        Stack<String> st = new Stack<String>();
+        for(String s: sl){
+            //System.out.println(s);
+            while(s.equals("#") && st.size() != 0 && st.peek().equals("#")){
+                st.pop();
+                if(st.size() <= 0)
+                    return false;
+                st.pop();
+                //System.out.println("pop" +st.pop());
+            }
+            st.push(s);
+        }
+        return (st.size() == 1 && st.peek().equals("#"));
+    }
+}

@@ -1,0 +1,33 @@
+public class Solution {
+    public int kthSmallest(int[][] matrix, int k) {
+         PriorityQueue<node> pq = new PriorityQueue<node>();
+         int n = matrix.length;
+         for(int i = 0; i < n; i++){
+             pq.offer(new node(0, i, matrix[0][i]));
+         }
+         for(int j = 0; j < k-1; j++){
+             node temp = pq.poll();
+             if(temp.x == n-1) continue;
+             pq.offer(new node(temp.x+1, temp.y, matrix[temp.x+1][temp.y]));
+         }
+         return pq.poll().val;
+    }
+}
+
+class node implements Comparable<node>{
+        int x;
+        int y;
+        int val;
+        
+        public node(int x, int y, int val){
+            this.x = x;
+            this.y = y;
+            this.val = val;
+        }
+        
+        @Override
+        public int compareTo(node that){
+            return this.val - that.val;
+        }
+    }
+

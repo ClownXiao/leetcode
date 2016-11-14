@@ -1,0 +1,14 @@
+public class Solution {
+    public char findTheDifference(String s, String t) {
+        
+        int ss = 0, tt = 0;
+        int ls = s.length();
+        int lt = t.length();
+        for(int i = 0; i < lt; i++){
+            ss += i < ls? (int)s.charAt(i): 0;
+            tt +=  (int)t.charAt(i);
+        }
+        return (char)(tt - ss);
+        
+    }
+}

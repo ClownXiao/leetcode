@@ -1,0 +1,37 @@
+public class Solution {
+    public int[] maxNumber(int[] nums1, int[] nums2, int k) {
+        int[] res = new int[k];
+        for(int i = Math.max(0, k - nums2.length); i <= k && i <= nums1.length; i++){
+            int[] cad = merge(maxarr(nums1, i), maxarr(nums2, k-i), k);
+            if(greater(cad, res, 0, 0))
+                res = cad;
+        }
+        return res;
+    }
+    
+    
+    public int[] merge(int[] a, int[] b, int k){
+        int[] res = new int[k];
+        for(int i = 0, j = 0, r = 0; r < k; r++){
+            res[r] = greater(a, b, i, j)? a[i++]: b[j++];
+        }
+        return res;
+    }
+    
+    public boolean greater(int[] a, int[] b, int i, int j){
+        while(i < a.length && j < b.length && a[i] == b[j]){
+            i++;
+            j++;
+        }  
+        return j == b.length || (i < a.length && a[i] > b[j]);
+    }
+    
+    public int[] maxarr(int[] a, int k){
+        int[] max = new int[k];
+        for(int i = 0,j = 0; i < a.length; i++){
+            while(a.length - i + j > k && j > 0 && max[j-1] < a[i]) j--;
+            if(j < k) max[j++] = a[i];
+        }
+        return max;
+    }
+}

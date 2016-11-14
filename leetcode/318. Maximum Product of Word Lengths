@@ -1,0 +1,23 @@
+public class Solution {
+    public int maxProduct(String[] words) {
+        int res = 0;
+        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+        for(String w : words){
+            int mask = 0;
+            for(int k = 0; k < w.length(); k++){
+                mask |= 1 << w.charAt(k) - 'a';
+            }
+            if(!map.containsKey(mask))
+                map.put(mask, w.length());
+            else
+                map.put(mask, Math.max(w.length(), map.get(mask)));
+            Iterator i = map.keySet().iterator();
+            while(i.hasNext()){
+                int m = (int)i.next();
+                if((m & mask) == 0)
+                    res = Math.max(map.get(m) * w.length(), res);
+            }
+        }
+        return res;
+    }
+}
