@@ -1,0 +1,27 @@
+public class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        return qc(nums, 0, nums.length-1, k);
+    }
+    
+    public int qc(int[] a,int l, int h, int k ){
+        //System.out.println(l);
+        //System.out.println(h);
+        int len = h;
+        int t = a[l];
+        while(l < h){
+            while(a[h] <= t && l < h) h--;
+            a[l] = a[h];
+            a[h] = t;
+            while(a[l] >= t && l < h ) l++;
+            a[h] = a[l];
+            a[l] = t;
+        }
+        if(l == k - 1)
+            return a[l];
+        else if(l > k-1)
+            return qc(a, 0, l - 1, k);
+        else
+            return qc(a, l+1, len, k);
+        
+    }
+}

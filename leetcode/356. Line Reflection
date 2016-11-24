@@ -1,0 +1,21 @@
+public class Solution {
+    public boolean isReflected(int[][] points) {
+        HashSet<String> map = new HashSet<String>();
+        int max = Integer.MIN_VALUE;
+        int min = Integer.MAX_VALUE;
+        for(int[] x : points){
+                max = Math.max(max, x[0]);
+                min = Math.min(min, x[0]);
+                map.add(x[0] + "," + x[1]);
+        }
+        int sum = max + min;
+        for(int[] x : points){
+            String s = (sum - x[0]) + "," + x[1]; 
+            if(!map.contains(s))
+                return false;
+        }
+
+      
+        return true;
+    }
+}

@@ -1,0 +1,26 @@
+public class Solution {
+    public boolean validWordAbbreviation(String word, String abbr) {
+        int j = 0;
+        for(int i = 0; i < abbr.length(); i++){
+            if(j >= word.length()) return false;
+            char c = abbr.charAt(i);
+            if(c > '0' && c <= '9'){
+                int k = i + 1;
+                while(k < abbr.length() && abbr.charAt(k) >= '0' && abbr.charAt(k) <= '9')
+                    k++;
+                //System.out.println(abbr.substring(i,k));
+                j += Integer.valueOf(abbr.substring(i,k));
+                i = k-1;
+            }
+            else{
+                if(word.charAt(j) != c)
+                    return false;
+                j++;
+            }
+        }
+        if(j != word.length())
+            return false;
+        return true;
+        
+    }
+}

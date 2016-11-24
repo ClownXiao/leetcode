@@ -1,0 +1,23 @@
+public class Solution {
+    
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        per(res, nums, new ArrayList<Integer>());
+        return res;
+    }
+    
+    public void per(List<List<Integer>> res, int[] a, List<Integer> l){
+        if(l.size() == a.length){
+            res.add(new ArrayList<Integer>(l));
+            return;
+        }
+        for(int i = 0; i < a.length; ++i){
+            if(!l.contains(a[i])){
+                l.add(a[i]);
+                per(res, a, l);
+                l.remove(l.size() - 1);
+            }
+        }
+        return;
+    }
+}

@@ -1,0 +1,28 @@
+public class Solution {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        List<Integer> l = new ArrayList<Integer>();
+        comn(res, l, candidates, 0 , target, 0);
+        return res;
+    }
+    
+    public void comn(List<List<Integer>> res,  List<Integer> l, int[] a, int sum, int target, int start){
+        for(int i = start; i < a.length; i++){
+            int s = sum + a[i];
+            //System.out.println("try " + a[i]);
+            if(s == target){
+                l.add(a[i]);
+                res.add(new ArrayList<Integer>(l));
+                l.remove(l.size() - 1);
+            }
+            else if(s > target)
+                continue;
+            else if(s < target){
+                l.add(a[i]);
+                comn(res, l, a, s, target, i);
+                
+                l.remove(l.size() - 1);
+            }
+        }
+    }
+}

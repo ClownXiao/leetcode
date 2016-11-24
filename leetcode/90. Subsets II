@@ -1,0 +1,22 @@
+public class Solution {
+    
+    public List<List<Integer>> res;
+    
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        res = new ArrayList<List<Integer>>();
+        Arrays.sort(nums);
+        back(nums, new ArrayList<Integer>(), 0);
+        return res;
+    }
+    
+    public void back(int[] a, List<Integer> l, int start){
+        res.add(new ArrayList<Integer>(l));
+        for(int i = start; i < a.length;i++){
+            if(i > start && a[i] == a[i-1]) continue;
+            l.add(a[i]);
+            back(a, l, i + 1);
+            l.remove(l.size()-1);
+        }
+    }
+
+}

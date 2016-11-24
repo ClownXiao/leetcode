@@ -1,0 +1,58 @@
+public class Solution {
+    public class Ceil{
+    public int r;
+    public int c;
+    public int h;
+    public Ceil(int r, int c, int h){
+        this.r = r;
+        this.c = c;
+        this.h = h;
+    }
+}
+
+    public int trapRainWater(int[][] heightMap) {
+        int m = heightMap.length;
+        if(m <= 1) return 0;
+        int n = heightMap[0].length;
+        if(n <= 1) return 0;
+        boolean[][] b = new boolean[m][n];
+        PriorityQueue<Ceil> q = new PriorityQueue<Ceil>(1, new Comparator<Ceil>(){
+            public int compare(Ceil a, Ceil b){
+                return a.h - b.h;
+            }
+            });
+        
+        for(int i = 0; i < m; i++){
+            b[i][0] = true;
+            b[i][n-1] = true;
+            q.offer(new Ceil(i,0,heightMap[i][0]));
+            q.offer(new Ceil(i,n-1,heightMap[i][n-1]));
+        }
+        for(int i = 0; i < n; i++){
+            b[0][i] = true;
+            b[m-1][i] = true;
+            q.offer(new Ceil(0,i,heightMap[0][i]));
+            q.offer(new Ceil(m-1,i,heightMap[m-1][i]));
+        }
+        
+        int[][] dir = {{-1,0},{1,0},{0,-1},{0,1}}; 
+        int res = 0;
+        while(q.size() != 0){
+            Ceil ce = q.poll();
+            for(int[] d:dir){
+                int r = ce.r + d[0];
+                int c = ce.c + d[1];
+                //System.out.println("  try  " + r + " " + c + " " + b[r][c]);
+                if(c > 0 && c < n && r > 0 && r < m && !b[r][c]){
+                    b[r][c] = true;
+                    //System.out.println(ce.h + "  vs  " + heightMap[r][c]);
+                    res += Math.max(0, ce.h - heightMap[r][c]);
+                    q.offer(new Ceil(r,c, Math.max(ce.h, heightMap[r][c])));
+                }
+            }
+        }
+        return res;
+    }
+    
+}
+

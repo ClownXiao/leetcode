@@ -1,0 +1,79 @@
+public class SnakeGame {
+
+    /** Initialize your data structure here.
+        @param width - screen width
+        @param height - screen height 
+        @param food - A list of food positions
+        E.g food = [[1,1], [1,0]] means the first food is positioned at [1,1], the second is at [1,0]. */
+        
+    HashSet<String> body;
+    Queue<String> q;
+    public int x;
+    public int y;
+    public int w;
+    public int h;
+    public int len;
+    public int[][] food;
+    public SnakeGame(int width, int height, int[][] food) {
+        body = new HashSet<String>();
+        q = new LinkedList<String>();
+        this.food = food;
+        x = 0;
+        y = 0;
+        w = width;
+        h = height;
+        len = 0;
+        q.offer(x + "" + y);
+        body.add(x + "" + y);
+    }
+    
+    /** Moves the snake.
+        @param direction - 'U' = Up, 'L' = Left, 'R' = Right, 'D' = Down 
+        @return The game's score after the move. Return -1 if game over. 
+        Game over when snake crosses the screen boundary or bites its body. */
+    public int move(String direction) {
+        switch(direction){
+            case "U":
+                x--;
+                break;
+            case "D":
+                x++;
+                
+                break;
+            case "L":
+                y--;
+                
+                break;
+            case "R":
+                y++;
+                break;
+        }
+        body.remove(q.peek());
+        //System.out.println("tail move:" + s);
+        if(x < 0 || x >= h || y < 0 || y >= w || body.contains(x + "" + y)){
+            
+        //System.out.println("new pos break:" + x + "," + y);
+        return -1;
+        }
+        
+        if(len < food.length && x == food[len][0] && y == food[len][1]){
+            len++;
+            body.add(q.peek());
+        }
+        else{
+            q.poll();
+        }
+        q.offer(x + "" + y);
+        body.add(x + "" + y);
+        //System.out.println("new pos:" + x + "," + y);
+        //System.out.println("next food:" + cur_f[0] + "," + cur_f[1]);
+        return len;
+        
+    }
+}
+
+/**
+ * Your SnakeGame object will be instantiated and called as such:
+ * SnakeGame obj = new SnakeGame(width, height, food);
+ * int param_1 = obj.move(direction);
+ */

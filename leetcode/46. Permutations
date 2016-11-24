@@ -1,0 +1,32 @@
+public class Solution {
+    
+    public HashSet<Integer> hs;
+    public List<List<Integer>> res;
+    public int len;
+    public List<List<Integer>> permute(int[] nums) {
+        hs = new HashSet<>();
+        res = new LinkedList<List<Integer>>();
+        len = nums.length;
+        per(nums, new LinkedList<Integer>());
+        return res;
+    }
+    
+    public void per(int[] a, List<Integer> l){
+        if(hs.size() == len){
+            List<Integer> x = new LinkedList<Integer>();
+            x.addAll(l);
+            res.add(x);
+            return;
+        }
+        for(int i = 0; i < len; ++i){
+            if(!hs.contains(a[i])){
+                l.add(a[i]);
+                hs.add(a[i]);
+                per(a, l);
+                hs.remove(l.get(l.size() - 1));
+                l.remove(l.size() - 1);
+            }
+        }
+        return;
+    }
+}
