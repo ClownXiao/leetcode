@@ -1,0 +1,61 @@
+public class Solution {
+    class Node{
+        Node[] child = new Node[26];
+        String word = null;
+    }
+    
+    int[] ii = {0, 0, 1, -1};
+    int[] jj = {1, -1, 0, 0};
+    public List<String> findWords(char[][] board, String[] words) {
+        
+        List<String> res = new ArrayList<String>();
+        int m = board.length;
+        if(m == 0) return res;
+        int n = board[0].length;
+        Node root = buildTree(words);
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                 dfs(board, res, root, i, j, m, n);
+            }
+        }
+        return res;
+    }
+    
+    public void dfs(char[][] board, List<String> res, Node root, int i, int j, int m, int n){
+        char c = board[i][j];
+        if(c == '#' || root.child[c - 'a'] == null)
+            return;
+        
+        root = root.child[c - 'a'];
+        if(root.word != null){
+            res.add(root.word);
+            root.word = null;
+        }
+        board[i][j] = '#';
+        for(int k = 0; k < 4; k++){
+            int ik = i + ii[k];
+            int jk = j + jj[k];
+            if(ik >= 0 && ik < m && jk >= 0 && jk < n && board[ik][jk] != '#'){
+                dfs(board, res, root, ik, jk, m, n);
+            }
+        }
+        board[i][j] = c;
+        return;
+        
+    }
+    
+    public Node buildTree(String words[]){
+        Node root = new Node();
+        for(String s : words){
+            Node p = root;
+            for(char c : s.toCharArray()){
+                int x = c - 'a';
+                if(p.child[x] == null)
+                    p.child[x] = new Node();
+                p = p.child[x];
+            }
+            p.word = s;
+        }
+        return root;
+    }
+}

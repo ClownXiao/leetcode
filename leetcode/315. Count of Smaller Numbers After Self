@@ -1,0 +1,39 @@
+public class Solution {
+    class Node{
+        int val, sum, dup = 1;
+        Node left,right;
+        Node(int val, int sum){
+            this.val = val;
+            this.sum = sum;
+        }
+    }
+    public List<Integer> countSmaller(int[] nums) {
+        List<Integer> res = new LinkedList<Integer>();
+        Node root = null;
+        for(int i = nums.length - 1; i >= 0; i--){
+            root = insert(nums[i], root, res, 0);
+        }
+        return res;
+    }
+    
+    public Node insert(int num, Node t, List<Integer> res, int sum){
+        if(t == null){
+            Node nd = new Node(num, 0);
+            res.add(0, sum);
+            return nd;
+        }
+        else if(t.val == num){
+            t.dup++;
+            res.add(0, sum + t.sum);
+        }
+        else if(t.val > num){
+            t.sum ++;
+            t.left = insert(num, t.left, res, sum);
+        }
+        else{
+            sum += t.sum + t.dup;
+            t.right = insert(num, t.right, res ,sum);
+        }
+        return t;
+    }
+}

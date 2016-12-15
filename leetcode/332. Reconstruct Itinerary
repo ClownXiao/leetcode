@@ -1,0 +1,20 @@
+public class Solution {
+    
+    
+    HashMap<String, PriorityQueue<String>> map = new HashMap<String, PriorityQueue<String>>();
+    List<String> res = new LinkedList<String>();
+    public List<String> findItinerary(String[][] tickets) {
+        for(String[] t: tickets){
+            map.computeIfAbsent(t[0], k -> new PriorityQueue<String>()).add(t[1]);
+        }
+        visit("JFK");
+        return res;
+    }
+    
+    public void visit(String s){
+        while(map.containsKey(s) && map.get(s).size() > 0){
+            visit(map.get(s).poll());
+        }
+        res.add(0, s);
+    }
+}

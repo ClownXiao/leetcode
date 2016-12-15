@@ -1,0 +1,27 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public int count;
+    public int target;
+    public int kthSmallest(TreeNode root, int k) {
+        count = k;
+        travel(root);
+        return target;
+    }
+    
+    public void travel(TreeNode t){
+        if(t == null)
+            return ;
+        travel(t.left);
+        count--;
+        if(count == 0) target = t.val; 
+        travel(t.right);
+    }
+}

@@ -1,0 +1,22 @@
+public class Solution {
+    public int hIndex(int[] citations) {
+        int len = citations.length;
+        if(len == 0) return 0;
+        int[] res = new int[len+1];
+        Arrays.fill(res, 0);
+        for(int i = 0; i < len; i++){
+            if(citations[i] >= len)
+                res[len]++;
+            else
+                res[citations[i]]++;
+        }
+        int t = 0;
+        int r = 0;
+        for(int i = len; i >= 0; i--){
+            t += res[i];
+            if(t >= i)
+                return i;
+        }
+        return 0;
+    }
+}

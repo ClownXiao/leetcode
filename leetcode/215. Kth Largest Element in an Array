@@ -1,5 +1,35 @@
 public class Solution {
     public int findKthLargest(int[] nums, int k) {
+<<<<<<< HEAD
+        if(nums.length < 2) return nums[0];
+        return kth(nums, 0, nums.length-1, k);
+    }
+    
+    public int kth(int[] a, int l, int h, int k){
+        int i = l;
+        int j = h;
+        int thsd = a[h];
+        int temp;
+        while(i < j){
+            if(a[i++] < thsd){
+                i--;
+                j--;
+                temp = a[i];
+                a[i] = a[j];
+                a[j] = temp;
+            }
+        }
+        a[h] = a[i];
+        a[i] = thsd;
+        
+        int m = i-l+1;
+        if(m == k)
+            return thsd;
+        else if(m > k)
+            return kth(a, l, i-1, k);
+        else
+            return kth(a, i+1, h, k-m);
+=======
         return qc(nums, 0, nums.length-1, k);
     }
     
@@ -23,5 +53,6 @@ public class Solution {
         else
             return qc(a, l+1, len, k);
         
+>>>>>>> 6e4d1d48aef99a3634c1eee9ef4b123e24e99e4d
     }
 }

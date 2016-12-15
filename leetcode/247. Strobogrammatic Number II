@@ -1,0 +1,40 @@
+public class Solution {
+    char[][] ss = {{'0', '0'}, {'1', '1'}, {'6', '9'},  {'8', '8'}, {'9', '6'}};
+    char[] cc = { '0', '1', '8'};
+    boolean flag = true;
+    
+    public List<String> findStrobogrammatic(int n) {
+        List<String> res = new ArrayList<String>();
+        int len = n/2;
+        if(n % 2 == 1) flag = false;
+        travel(0,len, new StringBuilder(), res );
+        //Collections.sort(res);
+        return res;
+    }
+    
+    public void travel(int cur, int len, StringBuilder sb, List<String> res ){
+        if(cur == len){
+            if(flag)
+                res.add(sb.toString());
+            else{
+               for(int i = 0; i < 3; i++){
+                   sb.insert(cur, cc[i]);
+                   res.add(sb.toString());
+                   sb.deleteCharAt(cur);
+               } 
+            }
+        }
+        else{
+            int len1 = 0;
+            if(cur == 0) len1 = 1;
+            for(int i = len1; i < 5; i++){
+                sb.insert(cur, ss[i][0]);
+                sb.insert(cur+1, ss[i][1]);
+                travel(cur + 1, len, sb, res);
+                sb.deleteCharAt(cur);
+                sb.deleteCharAt(cur);
+            }
+        }
+        return;
+    }
+}

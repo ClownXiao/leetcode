@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 public class Solution {
     public List<int[]> kSmallestPairs(int[] nums1, int[] nums2, int k) {
         int c = 0;
@@ -31,4 +32,39 @@ public class Solution {
         }
         return l;
     }
+=======
+public class Solution {
+    public List<int[]> kSmallestPairs(int[] nums1, int[] nums2, int k) {
+        int c = 0;
+        int i = 0, j = 0;
+        int l1 = nums1.length, l2 = nums2.length;
+        int n1,n2;
+        int[] index =  new int[l1];
+        List<int[]> l = new ArrayList<int[]>();
+        while(k-- > 0){
+            
+            int flag = -1;
+            int min = Integer.MAX_VALUE;
+            for(i = 0; i < l1; i++){
+                if(index[i] >= l2)
+                    continue;
+                else{
+                    int temp = nums1[i] + nums2[index[i]];
+                    if (temp < min){
+                        min = temp;
+                        flag = i;
+                    }
+                }
+            }
+            if(flag == -1)
+                break;
+            l.add(new int[]{ nums1[flag],  nums2[index[flag]]});
+            
+            index[flag]++;
+
+            
+        }
+        return l;
+    }
+>>>>>>> 6e4d1d48aef99a3634c1eee9ef4b123e24e99e4d
 }

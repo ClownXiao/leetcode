@@ -1,0 +1,31 @@
+public class Solution {
+    public List<String> generateAbbreviations(String word) {
+        List<String> res= new ArrayList<String>();
+        for(int i = 0; i < (1 << word.length()); i++){
+            res.add(getAbr(word, i));
+        }
+        return res;
+    }
+    
+    public String getAbr(String word, int mask){
+        StringBuilder sb = new StringBuilder();
+        int i = 0;
+        int k = 0;
+        for(; i < word.length(); i++){
+            if((mask & 1) == 1){
+                sb.append(word.charAt(i));
+                mask >>= 1;
+            }
+            else{
+                k = 0;
+                while((mask & 1) == 0 && k < word.length() - i){
+                    k++;
+                    mask >>= 1;
+                }
+                sb.append(k);
+                i += k - 1;
+            }
+        }
+        return sb.toString();
+    }
+}

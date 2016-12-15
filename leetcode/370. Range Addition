@@ -1,0 +1,15 @@
+public class Solution {
+    public int[] getModifiedArray(int length, int[][] updates) {
+        int[] res = new int[length];
+        //Arrays.fill(res, 0);
+        for(int[] x : updates){
+            res[x[0]] += x[2];
+            if(x[1] < length-1)
+                res[x[1]+1] -= x[2];
+        }
+        for(int i = 1; i < length; i++){
+            res[i] +=res[i-1];
+        }
+        return res;
+    }
+}

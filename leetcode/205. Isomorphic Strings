@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 public boolean isIsomorphic(String s, String t) {
         HashMap<Character,Integer> map1 = new HashMap<Character,Integer>();
         HashMap<Character,Integer> map2 = new HashMap<Character,Integer>();
@@ -6,4 +7,14 @@ public boolean isIsomorphic(String s, String t) {
                 return false;
         }
         return true;
+=======
+public boolean isIsomorphic(String s, String t) {
+        HashMap<Character,Integer> map1 = new HashMap<Character,Integer>();
+        HashMap<Character,Integer> map2 = new HashMap<Character,Integer>();
+        for( int Integer = 0; i < s.length(); i++){
+            if(map1.put(s.charAt(i), i) != map2.put(t.charAt(i),i))
+                return false;
+        }
+        return true;
+>>>>>>> 6e4d1d48aef99a3634c1eee9ef4b123e24e99e4d
     }
