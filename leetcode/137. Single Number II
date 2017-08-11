@@ -1,0 +1,15 @@
+public class Solution {
+    public int singleNumber(int[] nums) {
+        int[] dp = new int[2];
+        for(int i = 0; i < nums.length; i++){
+        	for(int j = 0; j < 2; j++){
+        		int temp = -1;
+        		for(int k = 0; k < 2; k++){
+        			if(k != j) temp &= (~dp[k]);
+        		}
+        		dp[j] = (nums[i] ^ dp[j]) & temp;
+        	}
+        }
+        return dp[0];
+    }
+}

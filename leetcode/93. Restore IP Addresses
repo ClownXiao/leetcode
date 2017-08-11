@@ -1,0 +1,40 @@
+public class Solution {
+    public List<String> restoreIpAddresses(String s) {
+        List<String> res = new ArrayList<>();
+        int min = 1;
+        if(s.length() > 12 || s.length() < 4)
+            return res;
+        dfs(min, 0, s, 4, new StringBuilder(),  res);
+        return res;
+    }
+    
+    public void dfs(int min, int start, String s, int left, StringBuilder sb, List<String> res){
+        if(left < 0)
+            return;
+        
+        //System.out.println(sb.toString());
+        //System.out.println("start" + start);
+        if(left == 0 && start == s.length()){
+            res.add(sb.substring(0, sb.length() - 1));
+            return;
+        }
+        
+        int before = sb.length();
+        if(s.charAt(start) == '0'){
+            sb.append("0.");
+            dfs(min, 1 + start, s, left - 1, sb, res);
+            sb.delete(before, before + 2);
+            return;
+        }
+        int bound = Math.min(s.length(), s.length() - left + 1);
+        for(int i = min; i <=  3 && i + start <= bound; i++){
+            int x = Integer.valueOf(s.substring(start, i + start));
+            //System.out.println(s.substring(start, i + start));
+            if(x <= 255){
+                sb.append(x + ".");
+                dfs(min, i + start, s, left - 1, sb, res);
+                sb.delete(before, before + i + 1);
+            }
+        }
+    }
+}

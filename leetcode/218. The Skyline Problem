@@ -1,0 +1,73 @@
+public class Solution {
+    public List<int[]> getSkyline(int[][] buildings) {
+        List<int[]> res = new ArrayList<>();
+        PriorityQueue<int[]> rightQ = new PriorityQueue<>((int[] a, int[] b) -> (a[1] - b[1]));
+        PriorityQueue<int[]> heightQ = new PriorityQueue<>(new Comparator<int[]>() {
+			@Override
+			public int compare(int[] o1, int[] o2) {
+				if(o1[2] == o2[2])
+                    return o1[1] - o2[1];
+                else
+                    return o2[2] - o1[2];
+			}
+        });
+        
+        
+        int cur_h = 0;
+        int[] next;
+        for(int i = 0; i <= buildings.length; i++){
+            if(i < buildings.length)
+                next = buildings[i];
+            else
+                next = new int[]{Integer.MAX_VALUE, 0, 0};
+            
+            if(rightQ.isEmpty()){
+                if(i == buildings.length)
+                    return res;
+                cur_h = next[2];
+                res.add(new int[]{next[0], cur_h});
+                heightQ.offer(next);
+                rightQ.offer(next);
+                continue;
+            }
+            int[] next_right = rightQ.peek();
+            
+            //if duan ceng
+            if(next[0] > next_right[1] || next_right[1] == Integer.MAX_VALUE){
+                i--;
+                rightQ.poll();
+                if(cur_h == next_right[2]){
+                    heightQ.poll();
+                    cur_h = nextHeight(heightQ, next_right[1]);
+                    if(res.get(res.size() - 1)[1] != cur_h)
+                        res.add(new int[]{next_right[1], cur_h});
+                }
+            }
+            else{
+                if(next[2] > cur_h){
+                    cur_h = next[2];
+                    if(res.get(res.size() - 1)[0] == next[0])
+                        res.remove(res.size() - 1);
+                    res.add(new int[]{next[0], next[2]});
+                }
+                if(next[0] == next_right[1]){
+                    rightQ.poll();
+                }
+                heightQ.offer(buildings[i]);
+                rightQ.offer(buildings[i]);
+                
+            }
+        }
+        return res;
+    }
+    
+    public int nextHeight(PriorityQueue<int[]> heightQ, int cur_x){
+        while(!heightQ.isEmpty()){
+            int[] nextH = heightQ.peek();
+            if(nextH[1] > cur_x)
+                return nextH[2];
+            heightQ.poll();
+        }
+        return 0;
+    }
+}

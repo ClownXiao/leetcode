@@ -1,0 +1,26 @@
+public class Solution {
+    public String simplifyPath(String path) {
+        Stack<String> st = new Stack<>();
+        String[] dir = path.split("/");
+        for(String s: dir){
+            //System.out.println("das" + s);
+            
+            if(s.equals("..")){
+                if(!st.isEmpty()) st.pop();
+            }
+               
+            else if(!s.equals("") && !s.equals("."))
+                st.push(s);
+        }
+        StringBuilder sb = new StringBuilder();
+        //String res = "";
+        while(!st.isEmpty()){
+            sb.append(new StringBuilder(st.pop()).reverse() + "/");
+            //res = "/" + st.pop() + res;
+        }
+        if(sb.length() == 0)
+            return "/";
+        return sb.reverse().toString();
+        //return res;
+    }
+}

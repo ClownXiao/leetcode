@@ -1,0 +1,51 @@
+public class Solution {
+    /*
+    1234
+    1243
+    1324
+    1342
+    1423
+    1432
+    2...
+    */
+    public String getPermutation(int n, int k) {
+        StringBuilder sb = new StringBuilder();
+        int[] factorial = getN(n);
+        HashSet<Integer> set = new HashSet<>();
+        k = k - 1;
+        for(int i = n ; i > 0; i--){
+            int x = k / factorial[i - 1];
+            
+            //System.out.println("he" + x);
+            sb.append(getX(set, x + 1, n));
+            k = k % factorial[i - 1];
+        }
+        return sb.toString();
+    }
+    
+    public int[] getN(int n){
+        int[] factorial = new int[n];
+        factorial[0] = 1;
+        for(int i = 1; i < n; i++){
+            factorial[i] = i * factorial[i-1];
+        }
+        return factorial;
+    }
+    
+    public int getX(HashSet<Integer> set, int x, int n){
+        for(int i = 1; i <= n; i++){
+            if(!set.contains(i)){
+                x--;
+                if(x == 0){
+                    set.add(i);
+                    //System.out.println("re" + i);
+                    return i;
+                }
+            }
+            else{
+                //System.out.println("no" + i);
+            }
+        }
+        return 0;
+    }
+}

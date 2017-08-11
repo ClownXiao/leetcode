@@ -1,0 +1,28 @@
+public class Solution {
+    public int numDecodings(String s) {
+        int len = s.length();
+        if(len == 0 || s.charAt(0) == '0')
+            return 0;
+        int[] dp = new int[len + 1];
+        dp[0] = dp[1] = 1;
+        for(int i = 1; i < len; i++){
+            char c = s.charAt(i);
+            int v = Integer.valueOf(s.substring(i - 1,i + 1));
+            
+            if(v > 26 || v < 10){
+                if(c == '0')
+                    return 0;
+                dp[i + 1] = dp[i];
+            }
+            else if(v >= 10){
+                if(c == '0')
+                    dp[i + 1] = dp[i - 1];
+                else
+                    dp[i + 1] = dp[i] + dp[i - 1];
+            }
+            else
+                return 0;
+        }
+        return dp[len];
+    }
+}

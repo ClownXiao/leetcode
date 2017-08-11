@@ -1,0 +1,25 @@
+public class Solution {
+    public int removeDuplicates(int[] nums) {
+        int len = nums.length;
+        if(len == 0) return 0;
+        int last = nums[0];
+        int res = 1;
+        int j = 1;
+        boolean allow = true;
+        for(int i = 1; i < nums.length; i++){
+            if(last == nums[i]){
+                if(allow){
+                    nums[j++] = nums[i];
+                    allow = false;
+                }
+            }
+            else{
+                allow = true;
+                res++;
+                nums[j++] = nums[i];
+                last = nums[i];
+            }
+        }
+        return j;
+    }
+}

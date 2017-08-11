@@ -1,0 +1,18 @@
+public class Solution {
+    public int rob(int[] nums) {
+        if(nums.length == 0) return 0;
+        return Math.max(rob2(nums, 0, nums.length - 1), rob2(nums, 1, nums.length));
+    }
+    
+    public int rob2(int[] nums, int s, int e){
+        if(nums.length == 1) return nums[0];
+        int rob = nums[s];
+        int unrob = 0;
+        for(int i = s + 1; i < e; i++){
+            int temp = rob;
+            rob = unrob + nums[i];
+            unrob = Math.max(unrob, temp);
+        }
+        return Math.max(unrob, rob);
+    }
+}
