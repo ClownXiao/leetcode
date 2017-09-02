@@ -1,0 +1,50 @@
+/* The read4 API is defined in the parent class Reader4.
+      int read4(char[] buf); */
+
+public class Solution extends Reader4 {
+    /**
+     * @param buf Destination buffer
+     * @param n   Maximum number of characters to read
+     * @return    The number of characters read
+     */
+    char[] legacy = new char[4];
+    int last = 0;
+    public int read(char[] buf, int n) {
+        boolean eof = false;
+        char[] buffer = new char[4];
+        int sum = 0, count = 0, remain = 0;
+        if(last != 0){
+            if(n <= last){
+                System.arraycopy(legacy, 0, buf, 0, n);
+                last -= n;
+                for(int i = 0; i < last; i++){
+                    legacy[i] = legacy[i + n];
+                }
+                return n;
+            }
+            else{
+                sum += last;
+                System.arraycopy(legacy, 0, buf, 0, sum);
+                last = 0;
+            }
+        }
+        
+        
+        while(!eof && sum < n){
+            count = read4(buffer);
+            eof = count < 4;
+            
+            remain = Math.min(count, n - sum);
+            System.arraycopy(buffer, 0, buf, sum, remain);
+            sum += remain;
+        }
+        
+        last = count - remain;
+        if(last != 0){
+            System.arraycopy(buffer, remain, legacy, 0, last);
+        }
+        
+        return sum;
+        
+    }
+}

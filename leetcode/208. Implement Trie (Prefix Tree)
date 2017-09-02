@@ -1,60 +1,63 @@
-class TrieNode {
-    // Initialize your data structure here.
-    public TrieNode[] children;
-    public boolean end;
+class Trie {
+
+    /** Initialize your data structure here. */
+    class Node{
+        public boolean isWord;
+        public Node[] children;
+        public Node(){
+            isWord = false;
+            children = new Node[26];
+        }
+    }
     
-    public TrieNode() {
-        children = new TrieNode[26];
-        end = false;
-    }
-}
-
-public class Trie {
-    private TrieNode root;
-
+    Node root;
     public Trie() {
-        root = new TrieNode();
+        root = new Node();
     }
-
-    // Inserts a word into the trie.
+    
+    /** Inserts a word into the trie. */
     public void insert(String word) {
-        TrieNode t = root;
-        for(int i = 0; i < word.length(); i++){
-            int x = word.charAt(i) - 'a';
-            if(t.children[x] == null)
-                t.children[x] = new TrieNode();
-            t = t.children[x];
+        Node node = root;
+        for(char c: word.toCharArray()){
+            if(node.children[c - 'a'] == null)
+                node.children[c - 'a']  = new Node();
+            node = node.children[c - 'a'];
         }
-        t.end = true;
+        node.isWord = true;
     }
-
-    // Returns if the word is in the trie.
+    
+    /** Returns if the word is in the trie. */
     public boolean search(String word) {
-        TrieNode t = root;
-        for(int i = 0; i < word.length(); i++){
-            int x = word.charAt(i) - 'a';
-            if(t.children[x] == null)
+        Node node = root;
+        for(char c: word.toCharArray()){
+            if(node.children[c - 'a'] == null)
                 return false;
-            t = t.children[x];
+            node = node.children[c - 'a'];
         }
-        return t.end;
+        return node.isWord;
     }
-
-    // Returns if there is any word in the trie
-    // that starts with the given prefix.
+    
+    /** Returns if there is any word in the trie that starts with the given prefix. */
     public boolean startsWith(String prefix) {
-        TrieNode t = root;
-        for(int i = 0; i < prefix.length(); i++){
-            int x = prefix.charAt(i) - 'a';
-            if(t.children[x] == null)
+        Node node = root;
+        for(char c: prefix.toCharArray()){
+            if(node.children[c - 'a'] == null)
                 return false;
-            t = t.children[x];
+            node = node.children[c - 'a'];
         }
-        return true;
+        if(node.isWord) return true;
+        else{
+            for(Node n:  node.children)
+                if(n != null) return true;
+        }
+        return false;
     }
 }
 
-// Your Trie object will be instantiated and called as such:
-// Trie trie = new Trie();
-// trie.insert("somestring");
-// trie.search("key");
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie obj = new Trie();
+ * obj.insert(word);
+ * boolean param_2 = obj.search(word);
+ * boolean param_3 = obj.startsWith(prefix);
+ */

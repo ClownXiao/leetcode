@@ -1,0 +1,19 @@
+public class Solution {
+    public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+        if(k < 1 || t < 0) return false;
+        HashMap<Long, Long> map = new HashMap<>();
+        for(int i = 0; i < nums.length; i++){
+            long mapValue = (long)nums[i] - Integer.MIN_VALUE;
+            long mapKey = mapValue / ((long)t + 1);
+            if(map.containsKey(mapKey) || (map.containsKey(mapKey - 1) && mapValue - map.get(mapKey - 1) <= t) || (map.containsKey(mapKey + 1) && map.get(mapKey + 1) - mapValue <= t))
+                return true;
+            if(map.size() >= k){
+                long lastKey = ((long)nums[i - k] - Integer.MIN_VALUE)/((long)t + 1);
+                map.remove(lastKey);
+            }
+            map.put(mapKey, mapValue);
+        }
+        return false;
+        
+    }
+}

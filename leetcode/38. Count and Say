@@ -1,0 +1,27 @@
+class Solution {
+    public String countAndSay(int n) {
+        String s = "1";
+        while(--n > 0){
+            s = parse(s);
+            //System.out.println(s);
+        }
+        return s;
+    }
+    
+    public String parse(String s){
+        StringBuilder sb = new StringBuilder();
+        char last = '0';
+        int count = 0;
+        for(char c: s.toCharArray()){
+            if(c == last)
+                count++;
+            else{
+                if(count != 0) sb.append(count + "" + last);
+                count = 1;
+                last = c;
+            }
+        }
+        sb.append(count + "" + last);
+        return sb.toString();
+    }
+}

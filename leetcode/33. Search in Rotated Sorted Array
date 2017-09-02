@@ -1,0 +1,31 @@
+class Solution {
+    public int search(int[] nums, int target) {
+        if(nums.length == 0) return -1;
+        int pivot = findPivot(nums);
+        int l = 0, h = nums.length - 1;
+        while(l <= h){
+            int mid = (l + h) / 2;
+            int midE = nums[(mid + pivot) % nums.length];
+            if(midE > target)
+                h = mid - 1;
+            else if(midE < target)
+                l = mid + 1;
+            else
+                return (mid + pivot) % nums.length;
+        }
+        return -1;
+    }
+    
+    public int findPivot(int[] nums){
+        int l = 0, h = nums.length - 1;
+        if(nums[h] > nums[l]) return l;
+        while(l < h){
+            int mid = (l + h) / 2;
+            if(nums[mid] >= nums[0])
+                l = mid + 1;
+            else
+                h = mid;
+        }
+        return l;
+    }
+}

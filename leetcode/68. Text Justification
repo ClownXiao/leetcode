@@ -1,0 +1,59 @@
+class Solution {
+    public List<String> fullJustify(String[] words, int maxWidth) {
+        List<String> res = new ArrayList<>();
+        int curNum = 0;
+        int curLen = 0;
+        int j = 0;
+        for(int i = 0; i <= words.length; i++){
+            if(i == words.length || (curLen + curNum + words[i].length() > maxWidth)){
+                StringBuilder sb = new StringBuilder();
+                curNum--;
+    
+                if(curNum == 0){
+                    int blank = maxWidth - curLen;
+                    for(int k = 0; k < blank; k++)
+                        sb.append(" ");
+                    String blankS = sb.toString();
+                    res.add(words[j++] + blankS);
+                }
+                else if(i != words.length){
+                    int blank = (maxWidth - curLen) / curNum;
+                    int extra_blank = (maxWidth - curLen) % curNum;
+                    for(int k = 0; k < blank; k++)
+                        sb.append(" ");
+                    String blankS = sb.toString();
+                    sb = new StringBuilder();
+                    
+                    while(j < i){
+                        if(extra_blank-- > 0)
+                            sb.append(words[j] + blankS+ " ");
+                        else if(j != i - 1)
+                            sb.append(words[j] + blankS);
+                        else
+                            sb.append(words[j]);
+                        j++;
+                    }
+                    res.add(sb.toString());
+                }
+                else{
+                    int blank = maxWidth - curLen - curNum - 1;
+                    while(j < i){
+                        sb.append(words[j++] + " ");
+                    }
+                    for(int k = 0; k < blank; k++)
+                        sb.append(" ");
+                    res.add(sb.toString());
+                }
+                
+                if(i == words.length) return res;
+                curLen = words[i].length();
+                curNum = 1;
+            }
+            else{
+                curLen += words[i].length();
+                curNum++;
+            }
+        }
+        return res;
+    }
+}

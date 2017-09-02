@@ -1,0 +1,20 @@
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        Map<Integer, Integer> len = new HashMap<>();
+        int res = 0;
+        for(int x: nums){
+            if(!len.containsKey(x)){
+                int left = len.containsKey(x - 1)? len.get(x - 1): 0;
+                int right = len.containsKey(x + 1)? len.get(x + 1): 0;
+                int sum = left + right + 1;
+                len.put(x, sum);
+                res = Math.max(sum, res);
+                len.put(x - left, sum);
+                len.put(x + right, sum);
+            }
+                
+        }
+        
+        return res;
+    }
+}

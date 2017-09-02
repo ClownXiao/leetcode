@@ -7,49 +7,44 @@
  *     TreeNode(int x) { val = x; }
  * }
  */
-public class Solution {
-    List<List<Integer>> res = new LinkedList<List<Integer>>();
-    Queue<TreeNode> q = new LinkedList<>();
-    Queue<Integer> p = new LinkedList<>();
+class Solution {
     int left = 1;
     int right = 0;
     public List<List<Integer>> verticalOrder(TreeNode root) {
-        if(root != null){
-            q.offer(root);
-            p.offer(0);
-        }
-        
+        List<List<Integer>> res = new LinkedList<>();
+        if(root == null) return res;
+        Queue<TreeNode> q = new LinkedList<>();
+        Queue<Integer> n = new LinkedList<>();
+        q.offer(root);
+        n.offer(0);
         while(!q.isEmpty()){
-            travel(p.poll(), q.poll());
+            TreeNode cur = q.poll();
+            int curLevel = n.poll();
+            travel(res, cur, curLevel);
+            if(cur.left != null){
+                q.offer(cur.left);
+                n.offer(curLevel - 1);
+            }
+            if(cur.right != null){
+                q.offer(cur.right);
+                n.offer(curLevel + 1);
+            }
+            
         }
-        
         return res;
     }
     
-    public void travel(int no, TreeNode t){
-        //System.out.println(t.val);
-        if(no < left){
-            left = no;
-            List<Integer> list = new ArrayList<Integer>();
-            list.add(t.val);
-            res.add(0, list);
+    public void travel(List<List<Integer>> res, TreeNode root, int pos){
+        if(root == null) return;
+        if(pos < left){
+            left = pos;
+            res.add(0, new ArrayList<>());
         }
-        else if(no > right){
-            right = no;
-            List<Integer> list = new ArrayList<Integer>();
-            list.add(t.val);
-            res.add(list);
+        else if(pos > right){
+            right = pos;
+            res.add(new ArrayList<>());
         }
-        else{
-            res.get(no - left).add(t.val);
-        }
-        if(t.left != null){
-            p.offer(no - 1);
-            q.offer(t.left);
-        }
-        if(t.right != null){
-            p.offer(no + 1);
-            q.offer(t.right);
-        }
+        List<Integer> list = res.get(pos - left);
+        list.add(root.val);
     }
 }

@@ -1,0 +1,25 @@
+class Solution {
+    public int romanToInt(String s) {
+        Map<Character, Integer> alphabet = new HashMap<>();
+        alphabet.put('I',1);
+        alphabet.put('V',5);
+        alphabet.put('X',10);
+        alphabet.put('L',50);
+        alphabet.put('C',100);
+        alphabet.put('D',500);
+        alphabet.put('M',1000);
+        int res = 0;
+        int last = 1001;
+        for(char c: s.toCharArray()){
+            if(!alphabet.containsKey(c)) continue;
+            int x = alphabet.get(c);
+            if(x <= last)
+                res += x;
+            else
+                res += x - 2 * last;
+            last = x;
+        }
+        return res;
+        
+    }
+}

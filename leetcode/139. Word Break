@@ -1,16 +1,20 @@
-public class Solution {
-    public int max = 0;
-    public boolean wordBreak(String s, Set<String> wordDict) {
-        int len = s.length();
-        boolean[] f = new boolean[len + 1];
-        f[0] = true;
-        for(int i = 1; i < len+1; i++){
-            for(int j = 0; j < i; j++){
-                if(f[j] && wordDict.contains(s.substring(j,i))){
-                    f[i] = true;
-                }
+class Solution {
+    public boolean wordBreak(String s, List<String> wordDict) {
+        HashSet<String> set = new HashSet<>();
+        for(String d : wordDict){
+            set.add(d);
+        }
+        return dfs(s, set, 0);
+    }
+    
+    public boolean dfs(String s, HashSet<String> set, int pos){
+        if(pos == s.length())
+            return true;
+        for(int i = s.length(); i > pos; i--){
+            if(set.contains(s.substring(pos, i))){
+                if(dfs(s, set, i)) return true;
             }
         }
-        return f[len];
+        return false;
     }
 }

@@ -1,40 +1,86 @@
-public class LRUCache {
+class LRUCache {
     
-    public HashMap<Integer, Integer> cache;
-    public Queue<Integer> q;
+    class Node{
+        public int key;
+        public int value;
+        public Node pre;
+        public Node next;
+        public Node(int key, int value){
+            this.key = key;
+            this.value = value;
+        }
+    }
+
+    public Node dummy;
+    public Node tail;
+    
+    public HashMap<Integer, Node> map;
     public int capacity;
-    public int use;
-    
-    
     public LRUCache(int capacity) {
-        cache = new HashMap<Integer, Integer>();
-        q = new LinkedList<Integer>();
+        dummy = new Node(0, 0);
+        tail = dummy;
+        map = new HashMap<>();
         this.capacity = capacity;
-        use = 0;
+    }
+    
+    public void addHead(Node node){
+        if(tail == dummy) tail = node;
+        Node head = dummy.next;
+        dummy.next = node;
+        node.pre = dummy;
+        node.next = head;
+        if(head != null)
+            head.pre = node;
+        
+        if(capacity-- == 0){
+            //System.out.println("remove" + tail.key);
+            
+            map.remove(tail.key);
+            remove(tail);
+        }
+    }
+    
+    public void remove(Node node){
+        node.pre.next = node.next;
+        if(node.next != null)
+            node.next.pre = node.pre;
+        else
+            tail = node.pre;
+        capacity++;
     }
     
     public int get(int key) {
-        int rst = -1;
-        if(cache.containsKey(key)){
-            q.remove(key);
-            q.offer(key);
-            rst = cache.get(key);
+        if(map.containsKey(key)){
+            Node target = map.get(key);
+            remove(target);
+            addHead(target);
+             //System.out.println(tail.key);
+            return target.value;
         }
-        
-        return rst;  
+        else{
+            return -1;
+        }
     }
     
-    public void set(int key, int value) {
-        if(cache.containsKey(key)){
-            q.remove(key);
-            use--;
+    public void put(int key, int value) {
+        Node target;
+        if(map.containsKey(key)){
+            target = map.get(key);
+            target.value = value;
+            remove(target);
         }
-        else if(use >= capacity){
-             int victim = q.poll();
-             cache.remove(victim);
+        else{
+            target = new Node(key, value);
         }
-        cache.put(key, value);
-        q.offer(key);
-        use++;
+        addHead(target);
+        map.put(key, target);
+        //System.out.println(tail.key);
     }
 }
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache obj = new LRUCache(capacity);
+ * int param_1 = obj.get(key);
+ * obj.put(key,value);
+ */

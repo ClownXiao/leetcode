@@ -1,22 +1,33 @@
-public class Solution {
-    
-    public List<List<Integer>> res;
-    
+class Solution {
     public List<List<Integer>> subsetsWithDup(int[] nums) {
-        res = new ArrayList<List<Integer>>();
+        List<List<Integer>> res = new ArrayList<>();
         Arrays.sort(nums);
-        back(nums, new ArrayList<Integer>(), 0);
+        dfs(res, new ArrayList<>(), 0, nums);
         return res;
     }
     
-    public void back(int[] a, List<Integer> l, int start){
-        res.add(new ArrayList<Integer>(l));
-        for(int i = start; i < a.length;i++){
-            if(i > start && a[i] == a[i-1]) continue;
-            l.add(a[i]);
-            back(a, l, i + 1);
-            l.remove(l.size()-1);
+    public void dfs(List<List<Integer>> res, List<Integer> cur, int i, int[] nums){
+        if(i == nums.length){
+            res.add(new ArrayList(cur));
+            return;
         }
+        
+        int k = nums[i];
+        int j = i + 1;
+        //how many same k
+        while(j < nums.length && nums[j] == k) j++;
+        //add one by one
+        int z = 0;
+        while(i++ < j){
+            dfs(res, cur, j, nums);
+            cur.add(k);
+            z++;
+        }
+        dfs(res, cur, j, nums);
+        //delete one by one
+        while(z-- > 0){
+            cur.remove(cur.size() - 1);
+        }
+        
     }
-
 }

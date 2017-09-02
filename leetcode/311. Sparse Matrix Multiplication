@@ -1,46 +1,20 @@
-public class Solution {
+class Solution {
     public int[][] multiply(int[][] A, int[][] B) {
-        //if(A.length == 0 || B.length == 0)
-          //  return new int[0][0];
-        List<HashMap<Integer, Integer>> AA = new ArrayList<>();
-        List<HashMap<Integer, Integer>> BB = new ArrayList<>();
-        int row = A.length;
-        int col = B[0].length;
-        for(int i = 0; i < A.length; i++){
-            HashMap<Integer, Integer> map = new HashMap<>();
-            for(int j = 0; j < A[0].length; j++){
-                if(A[i][j] != 0)
-                    map.put(j, A[i][j]);
-            }
-            AA.add(map);
-        }
-        
-        for(int i = 0; i < B[0].length; i++){
-            HashMap<Integer, Integer> map = new HashMap<>();
-            for(int j = 0; j < B.length; j++){
-                if(B[j][i] != 0)
-                    map.put(j, B[j][i]);
-            }
-            BB.add(map);
-        }
-        
-        int[][] res = new int[row][col];
-        for(int i = 0; i < row; i++){
-            HashMap<Integer, Integer> rowMap = AA.get(i);
-            for(int j = 0; j < col; j++){
-                int sum = 0;
-                HashMap<Integer, Integer> colMap = BB.get(j);
-                for(Map.Entry<Integer, Integer> entry : rowMap.entrySet()){
-                    if(colMap.containsKey(entry.getKey())){
-                        sum += colMap.get(entry.getKey()) * entry.getValue();
+        int m = A.length;
+        int n = B[0].length;
+        int z = B.length;
+        int[][] C = new int[m][n];
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < z; j++){
+                int x = A[i][j];
+                if(x != 0){
+                    for(int k = 0; k < n; k++){
+                        if(B[j][k] != 0)
+                            C[i][k] += x * B[j][k];
                     }
                 }
-                res[i][j] = sum;
             }
         }
-        return res;
-           
-        
-        
+        return C;
     }
 }

@@ -1,26 +1,30 @@
-public class Solution {
+
+/*
+dp, use "*" as condition to 分情况讨论。
+*/
+class Solution {
     public boolean isMatch(String s, String p) {
-        
-        if(p.length() > 0 && p.charAt(0) == '*')
+        int l1 = s.length();
+        int l2 = p.length();
+        if(l2 != 0 && p.charAt(0) == '*')
             return false;
-        int l1 = s.length(), l2 = p.length();
-        boolean[][] dp = new boolean[l1+1][l2+1];
+        boolean[][] dp = new boolean[l1 + 1][l2 + 1];
         dp[0][0] = true;
         
-        for(int i = 1; i < l2; i++){
-            if(p.charAt(i) == '*')
-                dp[0][i+1] = dp[0][i-1];
+        for(int j = 1; j <= l2; j++){
+            if(p.charAt(j - 1) == '*')
+                dp[0][j] = dp[0][j - 2];
         }
         
-        for(int i = 0; i < l1; i++){
-            char c1 = s.charAt(i);
-            for(int j = 0; j < l2; j++){
-                char c2 = p.charAt(j);
+        for(int i = 1; i <= l1; i++){
+            char c1 = s.charAt(i - 1);
+            for(int j = 1; j <= l2; j++){
+                char c2 = p.charAt(j - 1);
                 if(c2 != '*'){
-                    dp[i+1][j+1] = dp[i][j] && match(c1, c2);
+                    dp[i][j] = dp[i - 1][j - 1] && match(c1, c2);
                 }
                 else{
-                    dp[i+1][j+1] = dp[i+1][j-1] || (dp[i][j+1] && match(s.charAt(i), p.charAt(j-1)));
+                    dp[i][j] = dp[i][j - 2] || (dp[i - 1][j] && match(c1, p.charAt(j - 2)));
                 }
             }
         }
@@ -28,6 +32,6 @@ public class Solution {
     }
     
     public boolean match(char a, char b){
-        return b == '.' || a == b;
+        return a == b || b == '.';
     }
 }

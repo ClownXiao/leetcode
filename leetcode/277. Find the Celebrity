@@ -4,35 +4,17 @@
 public class Solution extends Relation {
     public int findCelebrity(int n) {
         
-        HashSet<Integer> black = new HashSet<>();
-        for(int i = 0; i < n; i++){
-            if(black.contains(i))
-                continue;
-            for(int j = 0; j < n; j++){
-                if(j == i)
-                    continue;
-                if(knows(i, j)){
-                    black.add(i);
-                    break;
-                }
-                else{
-                    black.add(j);
-                }
-            }
+        int candidate = 0;
+        for(int i = 1; i < n; i++){
+            if(knows(candidate, i)) candidate = i;
         }
         
-        l: for(int i = 0; i < n; i++){
-            if(!black.contains(i)){
-                for(int j = 0; j < n; j++){
-                    if(j == i)
-                        continue;
-                    if(!knows(j, i)){
-                        continue l;
-                    }
-                }
-                return i;
-            }  
+        for(int i = 0; i < candidate; i++){
+            if(knows(candidate, i)) return -1;
         }
-        return -1;
+        for(int i = 0; i < n; i++){
+            if(i != candidate && !knows(i, candidate)) return -1;
+        }
+        return candidate;
     }
 }

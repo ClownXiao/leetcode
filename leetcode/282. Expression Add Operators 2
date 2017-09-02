@@ -1,0 +1,37 @@
+class Solution {
+    //232
+    //2 x x x x x
+    public List<String> addOperators(String num, int target) {
+        List<String> res = new ArrayList<String>();
+        dfs(res, num, target, new char[2 * num.length()], 0, 0, 0, 0);
+        
+        return res;
+    }
+    
+    public void dfs(List<String> res, String num, int target, char[] digits, long sum, long last, int pos, int len){
+        if(pos == num.length() && sum == target){
+            res.add(new String(digits, 0, len));
+            return;
+        }
+        int j = len == 0 ? len: len + 1;
+        int x = 0;
+        for(int i = pos; i < num.length(); i++){
+            x = x * 10 + (num.charAt(i) - '0');
+            if(x < 10 && i > pos) break;
+            digits[j++] = num.charAt(i);
+            if(pos == 0){
+                dfs(res, num, target, digits, x, x, i + 1, j);
+            }
+            else{
+                digits[len] = '+';
+                dfs(res, num, target, digits, sum + x, x, i + 1, j);
+                digits[len] = '-';
+                dfs(res, num, target, digits, sum - x, -x, i + 1, j);
+                digits[len] = '*';
+                dfs(res, num, target, digits, sum - last + last * x, last * x, i + 1, j);
+            }
+        }
+    }
+    
+    
+}

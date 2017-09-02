@@ -1,0 +1,40 @@
+class Solution {
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        HashSet<String> dic = new HashSet<>();
+        for(String s: wordList)
+            dic.add(s);
+        
+        HashSet<String> chose = new HashSet<>();
+        chose.add(beginWord);
+        dic.remove(beginWord);
+        
+        int res = 1;
+        while(chose.size() != 0){
+            res++;
+            HashSet<String> newchose = new HashSet<>();
+            for(String cur: chose){
+                
+                char[] curArray = cur.toCharArray();
+                
+                for(int i = 0; i < cur.length(); i++){
+                    
+                    char old = curArray[i];
+                    for(char c = 'a'; c <= 'z'; c++){
+                        curArray[i] = c;
+                        String next = new String(curArray);
+                        if(dic.contains(next)){
+                            if(next.equals(endWord)) return res;
+                            else{
+                                newchose.add(next);
+                                dic.remove(cur);
+                            }  
+                        }
+                    }
+                    curArray[i] = old;
+                }
+            }
+            chose = newchose;
+        }
+        return 0;
+    }
+}

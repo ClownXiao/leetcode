@@ -1,0 +1,39 @@
+class Solution {
+    public int numDecodings(String s) {
+        int len = s.length();
+        if(len == 0) return 0;
+        long[] dp = new long[len + 1];
+        dp[0] = 1;
+        int last = 3;
+        for(int i = 1; i <= len; i++){
+            char c = s.charAt(i - 1);
+            if(c == '*'){
+                dp[i] += dp[i - 1] * 9;
+                if(last == 1)
+                    dp[i] += dp[i - 2] * 9; 
+                else if(last == 2)
+                    dp[i] += dp[i - 2] * 6;
+                else if(last == -1)
+                    dp[i] += dp[i - 2] * 15;
+                
+                dp[i] %= 1000000007;
+                last = -1;
+                
+            }
+            else{
+                int x = c - '0';
+                if((last == 1) || (last == 2 && x <= 6)){
+                    dp[i] += dp[i - 2];
+                }
+                else if(last == -1)
+                    dp[i] += x <= 6 ? (2 * dp[i - 2]): dp[i - 2];
+                if(x > 0)
+                    dp[i] += dp[i - 1];
+                dp[i] %= 1000000007;
+                last = x;
+            }
+                
+        }
+        return (int)dp[len];
+    }
+}
